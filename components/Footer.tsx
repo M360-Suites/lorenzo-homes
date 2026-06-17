@@ -102,7 +102,7 @@ export default function Footer() {
           </em>
         </span> */}
       </div>
-      <div className="overflow-hidden flex flex-col w-full max-w-7xl mx-auto gap-2 justify-center">
+      {/* <div className="overflow-hidden flex flex-col w-full max-w-7xl mx-auto gap-2 justify-center items-center">
         <span
           className="block w-full font-display tracking-[-0.04em] leading-[0.88]"
           style={{
@@ -120,6 +120,38 @@ export default function Footer() {
           <em className="not-italic" style={{ color: "rgba(184,132,47,0.3)" }}>
             Homes
           </em>
+        </span>
+      </div> */}
+      <div className=" flex-col lg:min-h-[15vh] md:flex-row overflow-hidden w-full flex justify-center items-center">
+        <span
+          className="
+       whitespace-nowrap leading-none tracking-[-0.04em] font-display font-medium
+      text-[6.4rem] md:text-[110px] lg:text-[150px] xl:text-[190px]
+    "
+          style={{
+            color: "rgba(255,255,255,0.3)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, rgba(255,255,255,1) 10%, rgba(255,255,255,0) 90%)",
+            maskImage:
+              "linear-gradient(to bottom, rgba(255,255,255,1) 10%, rgba(255,255,255,0) 90%)",
+          }}
+        >
+          Lorenzo
+        </span>
+        <span
+          className="
+       whitespace-nowrap leading-none tracking-[-0.04em] font-display font-medium
+      text-[6.5rem] md:text-[110px] lg:text-[150px] xl:text-[180px]
+    "
+          style={{
+            color: "rgba(184,132,47,0.3)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, rgba(255,255,255,1) 10%, rgba(255,255,255,0) 90%)",
+            maskImage:
+              "linear-gradient(to bottom, rgba(255,255,255,1) 10%, rgba(255,255,255,0) 90%)",
+          }}
+        >
+          Homes
         </span>
       </div>
 

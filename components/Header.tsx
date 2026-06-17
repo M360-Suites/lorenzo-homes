@@ -156,8 +156,8 @@ export default function Header() {
 
         {/* Mobile drawer */}
         <nav
-          className={`fixed top-0 right-0 h-screen w-[78%] max-w-[320px] bg-ink
-            flex flex-col justify-center gap-8 px-10 z-50
+          className={`fixed top-0 right-0 h-screen w-[80%] max-w-[350px] bg-ink
+            flex flex-col justify-center gap-8 px-5 z-50
             transition-transform duration-300
             ${open ? "translate-x-0" : "translate-x-full"}`}
           // Delay the drawer sliding OUT until all links have staggered away
@@ -174,7 +174,7 @@ export default function Header() {
                 key={n.href}
                 href={n.href}
                 onClick={close}
-                className={`relative font-semibold text-[44px]/[100%] overflow-hidden
+                className={`relative font-medium text-[44px]/[100%] overflow-hidden
                   after:absolute after:left-0 after:-bottom-0.5 after:h-[1.5px]
                   after:bg-brass after:transition-all uppercase font-display after:duration-300 hover:after:w-full
                   ${pathname === n.href ? "text-white after:w-full" : "text-white/60 after:w-0"}`}

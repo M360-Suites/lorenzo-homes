@@ -6,7 +6,7 @@ export default function CtaBand() {
   return (
     <section className="bg-sand py-16">
       <div className="wrap flex max-lg:flex-col items-center justify-between gap-6">
-        <div className="w-150 h-80 max-lg:w-full max-md:h-60 overflow-hidden rounded-lg bg-black flex items-center justify-center">
+        <div className="w-150 h-80 max-lg:w-full max-md:h-50 overflow-hidden rounded-lg bg-black flex items-center justify-center">
           <Image
             src={House}
             alt="House"
