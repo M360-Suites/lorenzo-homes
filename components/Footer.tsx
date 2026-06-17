@@ -102,7 +102,7 @@ export default function Footer() {
           </em>
         </span> */}
       </div>
-      <div className="overflow-hidden flex flex-col w-full max-w-7xl mx-auto gap-2 justify-center">
+      <div className="overflow-hidden flex flex-col w-full max-w-7xl mx-auto gap-2 justify-center items-center">
         <span
           className="block w-full font-display tracking-[-0.04em] leading-[0.88]"
           style={{
