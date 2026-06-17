@@ -35,11 +35,21 @@ const SERVICES = [
           stroke="currentColor"
           strokeWidth="2"
         />
+        <line
+          x1="24"
+          y1="13"
+          x2="24"
+          y2="35"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
         <path
-          d="M24 14v20M19 18h7a4 4 0 010 8h-6a4 4 0 000 8h8"
+          d="M29 17h-7a4 4 0 000 8h4a4 4 0 010 8h-7"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
+          strokeLinecap="round"
         />
       </svg>
     ),
@@ -124,23 +134,23 @@ function ServiceCard({ icon, title, body }: (typeof SERVICES)[0]) {
   return (
     <div
       ref={ref}
-      className="reveal bg-paper p-[36px_28px] transition-colors duration-300 hover:bg-white"
+      className="reveal bg-paper p-[40px_20px] transition-colors duration-300 hover:bg-white"
     >
       {icon}
-      <h3 className="font-body font-extrabold text-[1.05rem] mb-[10px] leading-[1.3]">
+      <h3 className="font-body font-extrabold text-[1.50rem] max-md:text-[1.2rem] mb-5 leading-[1.3]">
         {title}
       </h3>
-      <p className="text-[0.9rem] text-ink-soft m-0">{body}</p>
+      <p className="text-[1rem] text-ink-soft m-0">{body}</p>
     </div>
   );
 }
 
 export default function Services() {
   return (
-    <section id="services" className="py-[100px] bg-stone">
-      <div className="wrap">
+    <section id="services" className="py-25  bg-stone">
+      <div className="wrap w-full max-w-7xl">
         <div className="section-head">
-          <p className="eyebrow">What We Do</p>
+          <p className="eyebrow text-[1.3rem]">What We Do</p>
           <h2>Services built around the full life of an asset.</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-stone-line">
