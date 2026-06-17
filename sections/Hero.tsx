@@ -105,7 +105,7 @@ export default function Hero() {
             <a href="#projects" className="btn btn-solid">
               View Our Projects
             </a>
-            <a href="#contact" className="btn btn-outline">
+            <a href="/contact" className="btn btn-outline">
               Talk To Us
             </a>
           </div>
