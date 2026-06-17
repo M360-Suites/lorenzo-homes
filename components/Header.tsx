@@ -1,26 +1,28 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 const NAV = [
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/projects", label: "Projects" },
-  { href: "/contact", label: "Contact" },
+  { href: "#about", label: "About" },
+  { href: "#services", label: "Services" },
+  { href: "#projects", label: "Projects" },
+  { href: "#contact", label: "Contact" },
 ];
 
 const LIGHT_ROUTES = ["/contact", "/about"];
 
 export default function Header() {
-  const pathname = usePathname();
-  const isLight = LIGHT_ROUTES.includes(pathname);
-
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [linksVisible, setLinksVisible] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
-  const solidBg = scrolled || isLight;
+  const solidBg = scrolled;
+  const isActive = (href: string) => activeSection === href.slice(1);
+
+  const STAGGER = 60;
+  const DURATION = 400;
+  const totalOut = NAV.length * STAGGER + DURATION;
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60);
@@ -37,20 +39,36 @@ export default function Header() {
 
   useEffect(() => {
     if (open) {
-      // Wait for drawer slide to start, then stagger links in
       const t = setTimeout(() => setLinksVisible(true), 100);
       return () => clearTimeout(t);
     } else {
-      // Links stagger out first, drawer slides after they're gone
       setLinksVisible(false);
     }
   }, [open]);
 
-  const close = () => setOpen(false);
+  // ← only new code: track which section is in view
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    NAV.forEach(({ href }) => {
+      const id = href.slice(1);
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveSection(id);
+        },
+        {
+          threshold: 0,
+          rootMargin: "-40% 0px -55% 0px",
+        },
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
 
-  const STAGGER = 60; // ms between each link
-  const DURATION = 400; // ms per link transition
-  const totalOut = NAV.length * STAGGER + DURATION; // time before drawer closes
+  const close = () => setOpen(false);
 
   return (
     <>
@@ -116,10 +134,18 @@ export default function Header() {
                 key={n.href}
                 href={n.href}
                 className={`relative pb-1 font-semibold text-[0.92rem] transition-colors duration-300
-                  after:absolute after:left-0 after:-bottom-0.5 after:h-[1.5px] after:w-0
-                  after:bg-brass after:transition-all after:duration-300 hover:after:w-full
-                  ${pathname === n.href ? "after:w-full" : ""}
-                  ${solidBg ? "text-ink-soft" : "text-white"}`}
+                  after:absolute after:left-0 after:-bottom-0.5 after:h-[1.5px]
+                  after:bg-brass after:transition-all after:duration-300
+                  ${isActive(n.href) ? "after:w-full" : "after:w-0 hover:after:w-full"}
+                  ${
+                    solidBg
+                      ? isActive(n.href)
+                        ? "text-ink"
+                        : "text-ink-soft"
+                      : isActive(n.href)
+                        ? "text-white"
+                        : "text-white/70"
+                  }`}
               >
                 {n.label}
               </Link>
@@ -128,7 +154,7 @@ export default function Header() {
 
           {/* CTA */}
           <Link
-            href="/contact"
+            href="#contact"
             className={`btn hidden md:inline-flex ${solidBg ? "btn-ghost" : "btn-outline"}`}
             style={{ padding: "10px 20px", fontSize: "0.85rem" }}
           >
@@ -160,38 +186,44 @@ export default function Header() {
             flex flex-col justify-center gap-8 px-5 z-50
             transition-transform duration-300
             ${open ? "translate-x-0" : "translate-x-full"}`}
-          // Delay the drawer sliding OUT until all links have staggered away
           style={{ transitionDelay: open ? "0ms" : `${totalOut}ms` }}
         >
           {NAV.map((n, i) => {
-            // stagger IN: 0, 60, 120, 180ms  (first → last)
             const inDelay = i * STAGGER;
-            // stagger OUT: reversed — last link exits first
             const outDelay = (NAV.length - 1 - i) * STAGGER;
 
             return (
-              <Link
+              <a
                 key={n.href}
                 href={n.href}
-                onClick={close}
+                onClick={() => {
+                  close();
+                  document
+                    .getElementById(n.href.slice(1))
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
                 className={`relative font-medium text-[44px]/[100%] overflow-hidden
                   after:absolute after:left-0 after:-bottom-0.5 after:h-[1.5px]
-                  after:bg-brass after:transition-all uppercase font-display after:duration-300 hover:after:w-full
-                  ${pathname === n.href ? "text-white after:w-full" : "text-white/60 after:w-0"}`}
+                  after:bg-brass after:transition-all uppercase font-display after:duration-300
+                  ${
+                    isActive(`${n.href}`)
+                      ? "text-white after:w-full"
+                      : "text-white/60 after:w-0 hover:after:w-full"
+                  }`}
                 style={{
                   opacity: linksVisible ? 1 : 0,
                   transform: linksVisible
                     ? "translateX(0)"
                     : "translateX(48px)",
                   transition: `opacity ${DURATION}ms cubic-bezier(0.22,0.61,0.36,1),
-                                    transform ${DURATION}ms cubic-bezier(0.22,0.61,0.36,1)`,
+                               transform ${DURATION}ms cubic-bezier(0.22,0.61,0.36,1)`,
                   transitionDelay: linksVisible
                     ? `${inDelay}ms`
                     : `${outDelay}ms`,
                 }}
               >
                 {n.label}
-              </Link>
+              </a>
             );
           })}
         </nav>

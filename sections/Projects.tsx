@@ -1,5 +1,9 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
+import Progress from "@/public/assets/house03.jpg";
+import ProgressA from "@/public/assets/progress2.jpg";
+import ProgressB from "@/public/assets/progress1.jpg";
 
 const COMPLETED = {
   commercial: [
@@ -20,29 +24,34 @@ const COMPLETED = {
   industrial: [
     { name: "22 Bays of Warehouses", loc: "Abule Osun, Mazamaza, Lagos" },
     { name: "2 Bays of Warehouse", loc: "Abule Osun, Mazamaza, Lagos" },
-    {
-      name: "Rice Milling Factory & Warehouse",
-      loc: "Elele Alimini, Port Harcourt, Rivers State",
-    },
-    { name: "Rice Mill Factory & Warehouse", loc: "Bida, Niger State" },
-    { name: "Cassava Factory & Warehouse", loc: "Lanlate, Oyo State" },
+    // {
+    //   name: "Rice Milling Factory & Warehouse",
+    //   loc: "Elele Alimini, Port Harcourt, Rivers State",
+    // },
+    // { name: "Rice Mill Factory & Warehouse", loc: "Bida, Niger State" },
+    // { name: "Cassava Factory & Warehouse", loc: "Lanlate, Oyo State" },
   ],
   residential: [
-    {
-      name: "2 Wings, 5-Bedroom Duplex",
-      loc: "Ade Ajayi Street, Ogudu GRA, Lagos",
-    },
+    // {
+    //   name: "2 Wings, 5-Bedroom Duplex",
+    //   loc: "Ade Ajayi Street, Ogudu GRA, Lagos",
+    // },
     { name: "6-Bedroom Detached House", loc: "Osborne Phase 2, Ikoyi, Lagos" },
-    { name: "Block of 3no 3-Bedroom Apartments", loc: "Osborne, Ikoyi, Lagos" },
+    { name: "Block of 6no 3-Bedroom Apartments", loc: "Osborne, Ikoyi, Lagos" },
     { name: "Block of 5-Bedroom Mansion", loc: "Banana Island, Ikoyi, Lagos" },
   ],
 };
 
-const THUMBS = ["render", "construction-1", "construction-2"];
+const THUMBS = [Progress, ProgressA, ProgressB];
 
 export default function Projects() {
+  const [currentImage, setCurrentImage] = useState(THUMBS[0].src);
   const [tab, setTab] = useState<"completed" | "ongoing">("completed");
   const [thumb, setThumb] = useState(0);
+
+  const handleImageClick = (index: number) => {
+    setCurrentImage(THUMBS[index].src);
+  };
 
   return (
     <section id="projects" className="py-[110px] bg-ink text-white">
@@ -124,35 +133,15 @@ export default function Projects() {
             {/* Gallery */}
             <div>
               <div className="rounded-[2px] overflow-hidden aspect-[16/10] bg-black flex items-center justify-center">
-                <div className="w-full h-full bg-gradient-to-br from-[#2a1f12] via-[#1C1814] to-[#3d2f1e] flex items-center justify-center">
-                  <svg
-                    viewBox="0 0 120 80"
-                    width="100"
-                    height="70"
-                    opacity=".3"
-                  >
-                    <rect
-                      x="2"
-                      y="2"
-                      width="116"
-                      height="76"
-                      fill="none"
-                      stroke="#B8842F"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M20 60V32l40-22 40 22v28"
-                      fill="none"
-                      stroke="#B8842F"
-                      strokeWidth="2"
-                    />
-                    <path
-                      d="M40 60V44h20v16"
-                      fill="none"
-                      stroke="#B8842F"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
+                <div>
+                  <Image
+                    src={currentImage}
+                    alt="Project image"
+                    height={800}
+                    width={800}
+                    loading="lazy"
+                    className="object-cover h-full w-full"
+                  />
                 </div>
               </div>
               <div className="flex gap-[10px] mt-3">
@@ -163,15 +152,18 @@ export default function Projects() {
                     className={`p-0 border-2 bg-transparent cursor-pointer w-20 h-14 overflow-hidden rounded-[2px] transition-all duration-300 ${thumb === i ? "opacity-100 border-brass" : "opacity-60 border-transparent"}`}
                     aria-label={`View image ${i + 1}`}
                   >
-                    <div className="w-full h-full bg-gradient-to-br from-[#2a1f12] to-[#1C1814] flex items-center justify-center">
-                      <svg viewBox="0 0 30 20" width="28">
-                        <path
-                          d="M5 16V8l10-6 10 6v8"
-                          fill="none"
-                          stroke="#B8842F"
-                          strokeWidth="1.5"
-                        />
-                      </svg>
+                    <div
+                      onClick={() => handleImageClick(i)}
+                      className="w-full h-full bg-gradient-to-br from-[#2a1f12] to-[#1C1814] flex items-center justify-center"
+                    >
+                      <Image
+                        src={THUMBS[i]}
+                        alt={`Thumbnail ${i + 1}`}
+                        height={400}
+                        width={400}
+                        loading="lazy"
+                        className="object-cover h-full w-full"
+                      />
                     </div>
                   </button>
                 ))}
@@ -212,7 +204,7 @@ export default function Projects() {
                   </div>
                 ))}
               </div>
-              <div className="border-t border-white/14 pt-6">
+              {/* <div className="border-t border-white/14 pt-6">
                 <p className="text-[0.8rem] font-bold tracking-[0.08em] uppercase text-white/55 mb-3">
                   Site walkthrough
                 </p>
@@ -229,7 +221,7 @@ export default function Projects() {
                   </div>
                   <span>Video available on request</span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         )}

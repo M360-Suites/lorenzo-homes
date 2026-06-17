@@ -1,7 +1,7 @@
 "use client";
 import { useReveal } from "@/hooks/useReveal";
 import Image from "next/image";
-import House from "@/public/assets/house03.jpg";
+import House from "@/public/assets/progress1.jpg";
 
 export default function About() {
   const textRef = useReveal<HTMLDivElement>();
@@ -34,7 +34,7 @@ export default function About() {
           </p>
 
           {/* Mission card */}
-          {/* <div className="mt-7 p-[28px_30px] bg-stone border-l-[3px] border-brass">
+          <div className="mt-7 p-[28px_30px] bg-stone border-l-[3px] border-brass">
             <p className="font-extrabold text-[0.78rem] tracking-[0.1em] uppercase text-sand-deep mb-2">
               Our Mission
             </p>
@@ -50,7 +50,7 @@ export default function About() {
                 </span>
               ))}
             </div>
-          </div> */}
+          </div>
         </div>
 
         {/* Media */}
@@ -65,9 +65,6 @@ export default function About() {
                 width={600}
                 className="w-full h-full object-cover object-center rounded-[2px]"
               />
-              <span className="bg-[#1C1814]/80 backdrop-blur-sm px-3 py-1 rounded-full">
-                View Project
-              </span>
             </div>
             <figcaption className="mt-3 text-[0.82rem] text-ink-soft tracking-[0.02em]">
               Orchid Road, Lekki — site progress, 2026
