@@ -4,13 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV = [
-  { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
   { href: "/projects", label: "Projects" },
+  { href: "/sales", label: "Sales" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
-const LIGHT_ROUTES = ["/contact", "/about"];
+const LIGHT_ROUTES = ["/contact", "/about", "/sales", "/services"];
 
 export default function Header() {
   const pathname = usePathname();
@@ -42,7 +43,8 @@ export default function Header() {
       return () => clearTimeout(t);
     } else {
       // Links stagger out first, drawer slides after they're gone
-      setLinksVisible(false);
+      const t = setTimeout(() => setLinksVisible(false), 0);
+      return () => clearTimeout(t);
     }
   }, [open]);
 
@@ -56,24 +58,24 @@ export default function Header() {
     <>
       {open && (
         <div
-          className="fixed inset-0 bg-black/50 z-[49]"
+          className="fixed inset-0 bg-black/50 z-49"
           onClick={close}
           aria-hidden="true"
         />
       )}
 
       <header
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-100 transition-all duration-300 ${
           solidBg
             ? "bg-paper/95 backdrop-blur-md shadow-[0_3px_10px_rgba(0,0,0,0.06)]"
             : "bg-transparent"
         }`}
       >
-        <div className="wrap flex items-center justify-between py-[22px]">
+        <div className="wrap flex items-center justify-between py-5.5">
           {/* Logo */}
           <Link
             href="/"
-            className={`flex items-center gap-[10px] transition-colors duration-300 ${
+            className={`flex items-center gap-2.5 transition-colors duration-300 ${
               solidBg ? "text-ink" : "text-white"
             }`}
           >

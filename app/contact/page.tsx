@@ -33,16 +33,27 @@ export default function Contact() {
       return;
     }
     setStatus("loading");
-    await new Promise((r) => setTimeout(r, 1400));
-    setStatus("success");
-    setFields({
-      name: "",
-      email: "",
-      phone: "",
-      interest: "Leasing a space",
-      message: "",
-    });
-    setTimeout(() => setStatus("idle"), 6000);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...fields, source: "contact" }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send.");
+      setStatus("success");
+      setFields({
+        name: "",
+        email: "",
+        phone: "",
+        interest: "Leasing a space",
+        message: "",
+      });
+      setTimeout(() => setStatus("idle"), 6000);
+    } catch (err) {
+      console.error(err);
+      setStatus("error");
+    }
   };
 
   const inputCls =
@@ -62,7 +73,7 @@ export default function Contact() {
           <p className="text-ink-soft max-w-[440px]">
             Full details and pictures of our projects are available on request,
             and site inspections can be arranged at short notice — whether
-            you're joining us from Lagos or from abroad.
+            you&apos;re joining us from Lagos or from abroad.
           </p>
 
           <div className="flex gap-4 mt-7">
@@ -213,7 +224,7 @@ export default function Contact() {
             )}
             {status === "error" && (
               <p className="text-[0.85rem] font-bold mt-[14px] text-red-700">
-                Please fill in your name and email.
+                Please fill in your name and email, then try again.
               </p>
             )}
           </form>
