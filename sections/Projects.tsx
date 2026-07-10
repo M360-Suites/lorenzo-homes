@@ -63,7 +63,7 @@ export default function Projects() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-[10px] mb-[46px] border-b border-white/15">
+        <div className="flex gap-2.5 mb-11.5 border-b border-white/15">
           {(["completed", "ongoing"] as const).map((t) => (
             <button
               key={t}
