@@ -70,7 +70,7 @@ export default function Contact() {
           {/* <h2 className="text-[clamp(1.5rem,2.8vw,1.2rem)] mb-[0.5em]">
             Visit, call or write to our Lekki office.
           </h2> */}
-          <p className="text-ink-soft max-w-[440px]">
+          <p className="text-ink-soft max-w-110">
             Full details and pictures of our projects are available on request,
             and site inspections can be arranged at short notice — whether
             you&apos;re joining us from Lagos or from abroad.
@@ -78,7 +78,7 @@ export default function Contact() {
 
           <div className="flex gap-4 mt-7">
             <svg
-              className="w-[26px] h-[26px] shrink-0 text-brass mt-[2px]"
+              className="w-6.5 h-6.5 shrink-0 text-brass mt-0.5"
               viewBox="0 0 24 24"
               aria-hidden="true"
             >
