@@ -49,13 +49,8 @@ const IMAGES = [
 ];
 
 export default function Projects() {
-  const [currentImage, setCurrentImage] = useState(THUMBS[0].src);
   const [tab, setTab] = useState<"completed" | "ongoing">("completed");
   const [thumb, setThumb] = useState(0);
-
-  const handleImageClick = (index: number) => {
-    setCurrentImage(THUMBS[index].src);
-  };
 
   return (
     <section id="projects" className="py-[110px] bg-ink text-white">
@@ -74,7 +69,7 @@ export default function Projects() {
               key={t}
               onClick={() => setTab(t)}
               className={`bg-transparent border-0 font-body font-bold text-[0.95rem] pb-[14px] mr-[30px] cursor-pointer relative tracking-[0.01em] transition-colors duration-300 after:absolute after:left-0 after:bottom-[-1px] after:h-[2px] after:bg-brass after:transition-all after:duration-300 ${tab === t ? "text-white after:w-full" : "text-white/55 after:w-0"}`}
-              aria-selected={tab === t}
+              // aria-selected={tab === t}
             >
               {t === "completed" ? "Completed Projects" : "Ongoing Project"}
             </button>
