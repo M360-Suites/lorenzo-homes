@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import Progress from "@/public/assets/house03.jpg";
-import ProgressA from "@/public/assets/progress2.jpg";
-import ProgressB from "@/public/assets/progress1.jpg";
+import Img1 from "@/public/assets/house01.jpg";
+import Img2 from "@/public/assets/house02.jpg";
+import Img3 from "@/public/assets/house03.jpg";
 
 const COMPLETED = {
   commercial: [
@@ -42,7 +42,11 @@ const COMPLETED = {
   ],
 };
 
-const THUMBS = [Progress, ProgressA, ProgressB];
+const IMAGES = [
+  { src: Img1, alt: "Orchid Road plaza — front angle" },
+  { src: Img2, alt: "Orchid Road plaza — side detail" },
+  { src: Img3, alt: "Orchid Road plaza — street view" },
+];
 
 export default function Projects() {
   const [currentImage, setCurrentImage] = useState(THUMBS[0].src);
@@ -132,39 +136,36 @@ export default function Projects() {
           <div className="animate-fadeUp grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-[54px] items-start">
             {/* Gallery */}
             <div>
-              <div className="rounded-[2px] overflow-hidden aspect-[16/10] bg-black flex items-center justify-center">
-                <div>
-                  <Image
-                    src={currentImage}
-                    alt="Project image"
-                    height={800}
-                    width={800}
-                    loading="lazy"
-                    className="object-cover h-full w-full"
-                  />
-                </div>
+              {/* Main image */}
+              <div className="rounded-[2px] overflow-hidden aspect-[16/10] relative bg-black">
+                <Image
+                  src={IMAGES[thumb].src}
+                  alt={IMAGES[thumb].alt}
+                  fill
+                  className="object-cover object-center transition-opacity duration-300"
+                  sizes="(max-width: 768px) 100vw, 55vw"
+                />
               </div>
+              {/* Thumbnails */}
               <div className="flex gap-[10px] mt-3">
-                {THUMBS.map((_, i) => (
+                {IMAGES.map((img, i) => (
                   <button
                     key={i}
                     onClick={() => setThumb(i)}
-                    className={`p-0 border-2 bg-transparent cursor-pointer w-20 h-14 overflow-hidden rounded-[2px] transition-all duration-300 ${thumb === i ? "opacity-100 border-brass" : "opacity-60 border-transparent"}`}
+                    className={`p-0 border-2 bg-transparent cursor-pointer w-20 h-14 overflow-hidden rounded-[2px] transition-all duration-300 relative ${
+                      thumb === i
+                        ? "opacity-100 border-brass"
+                        : "opacity-50 border-transparent hover:opacity-80"
+                    }`}
                     aria-label={`View image ${i + 1}`}
                   >
-                    <div
-                      onClick={() => handleImageClick(i)}
-                      className="w-full h-full bg-gradient-to-br from-[#2a1f12] to-[#1C1814] flex items-center justify-center"
-                    >
-                      <Image
-                        src={THUMBS[i]}
-                        alt={`Thumbnail ${i + 1}`}
-                        height={400}
-                        width={400}
-                        loading="lazy"
-                        className="object-cover h-full w-full"
-                      />
-                    </div>
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      className="object-cover object-center"
+                      sizes="80px"
+                    />
                   </button>
                 ))}
               </div>
@@ -182,10 +183,10 @@ export default function Projects() {
               <p className="text-white/72">
                 A 3,100 sqm gross lettable, mixed-use commercial plaza rising on
                 2,350 sqm of land along Orchid Road, Lekki — built for retail
-                flagships, showrooms and office suites in one of Lagos's
+                flagships, showrooms and office suites in one of Lagos&apos;s
                 fastest-growing commercial corridors.
               </p>
-              <div className="flex gap-[14px] my-[22px] flex-wrap">
+              <div className="flex gap-3.5 my-5.5 flex-wrap">
                 {[
                   { val: "3,100 sqm", label: "Gross lettable area" },
                   { val: "2,350 sqm", label: "Land area" },
@@ -193,7 +194,7 @@ export default function Projects() {
                 ].map((c) => (
                   <div
                     key={c.label}
-                    className="bg-white/[0.06] border border-white/12 p-[14px_18px] rounded-[2px] min-w-[120px]"
+                    className="bg-white/6 border border-white/12 p-[14px_18px] rounded-xs min-w-30"
                   >
                     <strong className="block font-display text-[1.3rem] text-white">
                       {c.val}
