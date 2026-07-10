@@ -16,6 +16,7 @@ export default function Contact() {
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const set =
     (k: string) =>
@@ -29,10 +30,12 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fields.name || !fields.email) {
+      setErrorMsg("Please fill in your name and email.");
       setStatus("error");
       return;
     }
     setStatus("loading");
+    setErrorMsg("");
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -50,8 +53,12 @@ export default function Contact() {
         message: "",
       });
       setTimeout(() => setStatus("idle"), 6000);
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.";
+      setErrorMsg(msg);
       setStatus("error");
     }
   };
@@ -222,9 +229,9 @@ export default function Contact() {
                 ✓ Enquiry sent. We&apos;ll be in touch within one business day.
               </p>
             )}
-            {status === "error" && (
+            {status === "error" && errorMsg && (
               <p className="text-[0.85rem] font-bold mt-[14px] text-red-700">
-                Please fill in your name and email, then try again.
+                {errorMsg}
               </p>
             )}
           </form>
