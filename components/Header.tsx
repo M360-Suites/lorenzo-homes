@@ -177,20 +177,15 @@ export default function Header() {
             const outDelay = (NAV.length - 1 - i) * STAGGER;
 
             return (
-              <a
+              <Link
                 key={n.href}
                 href={n.href}
-                onClick={() => {
-                  close();
-                  document
-                    .getElementById(n.href.slice(1))
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
+                onClick={close}
                 className={`relative font-medium text-[44px]/[100%] overflow-hidden
                   after:absolute after:left-0 after:-bottom-0.5 after:h-[1.5px]
                   after:bg-brass after:transition-all uppercase font-display after:duration-300
                   ${
-                    isActive(`${n.href}`)
+                    isActive(n.href)
                       ? "text-white after:w-full"
                       : "text-white/60 after:w-0 hover:after:w-full"
                   }`}
@@ -207,7 +202,7 @@ export default function Header() {
                 }}
               >
                 {n.label}
-              </a>
+              </Link>
             );
           })}
         </nav>
