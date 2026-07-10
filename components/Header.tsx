@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const NAV = [
   { href: "/services", label: "Services" },
@@ -10,16 +11,18 @@ const NAV = [
   { href: "/contact", label: "Contact" },
 ];
 
-const LIGHT_ROUTES = ["/contact", "/about", "/sales", "/services"];
+// Only the home page gets the transparent-until-scroll treatment
+const HERO_ROUTES = ["/", "/projects", "/sales"];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [linksVisible, setLinksVisible] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
 
-  const solidBg = scrolled;
-  const isActive = (href: string) => activeSection === href.slice(1);
+  const pathname = usePathname();
+  // Transparent only on home page; all other pages show solid header immediately
+  const solidBg = scrolled || !HERO_ROUTES.includes(pathname);
+  const isActive = (href: string) => pathname === href;
 
   const STAGGER = 60;
   const DURATION = 400;
@@ -48,28 +51,6 @@ export default function Header() {
       return () => clearTimeout(t);
     }
   }, [open]);
-
-  // ← only new code: track which section is in view
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    NAV.forEach(({ href }) => {
-      const id = href.slice(1);
-      const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActiveSection(id);
-        },
-        {
-          threshold: 0,
-          rootMargin: "-40% 0px -55% 0px",
-        },
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
-    return () => observers.forEach((o) => o.disconnect());
-  }, []);
 
   const close = () => setOpen(false);
 
@@ -196,20 +177,15 @@ export default function Header() {
             const outDelay = (NAV.length - 1 - i) * STAGGER;
 
             return (
-              <a
+              <Link
                 key={n.href}
                 href={n.href}
-                onClick={() => {
-                  close();
-                  document
-                    .getElementById(n.href.slice(1))
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
+                onClick={close}
                 className={`relative font-medium text-[44px]/[100%] overflow-hidden
                   after:absolute after:left-0 after:-bottom-0.5 after:h-[1.5px]
                   after:bg-brass after:transition-all uppercase font-display after:duration-300
                   ${
-                    isActive(`${n.href}`)
+                    isActive(n.href)
                       ? "text-white after:w-full"
                       : "text-white/60 after:w-0 hover:after:w-full"
                   }`}
@@ -226,7 +202,7 @@ export default function Header() {
                 }}
               >
                 {n.label}
-              </a>
+              </Link>
             );
           })}
         </nav>
