@@ -36,8 +36,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const user = process.env.GMAIL_USER;
-  const pass = process.env.GMAIL_APP_PASSWORD;
+  const user = process.env.MAIL_USER;
+  const pass = process.env.MAIL_APP_PASSWORD;
 
   if (!user || !pass) {
     console.error("Missing GMAIL_USER or GMAIL_APP_PASSWORD env vars.");
@@ -49,6 +49,9 @@ export async function POST(req: NextRequest) {
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465, // CHANGE TO 465
+    secure: true, // CHANGE TO TRUE
     auth: { user, pass },
   });
 
