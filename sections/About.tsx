@@ -1,5 +1,7 @@
 "use client";
 import { useReveal } from "../hooks/useReveal";
+import Image from "next/image";
+import House from "@/public/assets/progress1.jpg";
 
 export default function About() {
   const textRef = useReveal<HTMLDivElement>();
@@ -58,30 +60,13 @@ export default function About() {
           <figure className="m-0">
             {/* Replace div with <Image> once you have assets */}
             <div className="w-full aspect-[4/3] bg-gradient-to-br from-[#2a2118] to-[#1C1814] rounded-[2px] shadow-[0_30px_60px_-20px_rgba(28,24,20,0.35)] flex flex-col items-center justify-center gap-4 text-white/40 text-[0.85rem] tracking-[0.06em] uppercase">
-              <svg viewBox="0 0 80 80" width="60" height="60" opacity=".5">
-                <rect
-                  x="4"
-                  y="4"
-                  width="72"
-                  height="72"
-                  fill="none"
-                  stroke="#B8842F"
-                  strokeWidth="2"
-                />
-                <path
-                  d="M16 60V36l24-16 24 16v24"
-                  fill="none"
-                  stroke="#B8842F"
-                  strokeWidth="2.5"
-                />
-                <path
-                  d="M30 60V44h20v16"
-                  fill="none"
-                  stroke="#B8842F"
-                  strokeWidth="2"
-                />
-              </svg>
-              <span>Orchid Road, Lekki</span>
+              <Image
+                src={House}
+                alt="Orchid Road, Lekki"
+                height={600}
+                width={600}
+                className="w-full h-full object-cover object-center rounded-[2px]"
+              />
             </div>
             <figcaption className="mt-3 text-[0.82rem] text-ink-soft tracking-[0.02em]">
               Orchid Road, Lekki — site progress, 2026
@@ -91,7 +76,7 @@ export default function About() {
       </div>
 
       {/* Our Model */}
-      <div className="wrap mt-[90px] pt-[60px] border-t border-stone-line">
+      {/* <div className="wrap mt-[90px] pt-[60px] border-t border-stone-line">
         <p className="eyebrow justify-center">Our Model</p>
         <div className="flex flex-wrap items-start gap-0 mt-8">
           {[
@@ -133,6 +118,56 @@ export default function About() {
                 />
               )}
             </>
+          ))}
+        </div>
+      </div> */}
+      <div className="wrap mt-[90px] pt-[60px]  border-t border-stone-line">
+        <p className="eyebrow text-3xl tracking-tight justify-center">
+          Our Model
+        </p>
+        <div className="grid grid-cols-3 max-md:grid-cols-1 gap-8 mt-8">
+          {[
+            {
+              n: "01",
+              title: "Invest",
+              body: "We acquire viable opportunities across commercial, industrial and residential real estate.",
+            },
+            {
+              n: "02",
+              title: "Add Value",
+              body: "We develop, finance and manage each asset for optimum value appreciation.",
+            },
+            {
+              n: "03",
+              title: "Deliver Returns",
+              body: "We dispose at the right time, returning the best value to our stakeholders.",
+            },
+          ].map((step, i, arr) => (
+            <div
+              className="border py-8 px-4 border-dashed border-[#b8842f] rounded-lg flex items-start max-md:flex-col"
+              key={step.n}
+            >
+              <div key={step.n} className="flex-1">
+                <span className="inline-block font-display text-[0.95rem] font-semibold text-white bg-brass w-[34px] h-[34px] leading-[34px] text-center rounded-full mb-4">
+                  {step.n}
+                </span>
+                <h3 className="text-[1.25rem] mb-[0.4em]">{step.title}</h3>
+                <p className="text-ink-soft text-[0.92rem] max-w-[280px]">
+                  {step.body}
+                </p>
+              </div>
+              {/* {i < arr.length - 1 && (
+                <div
+                  key={`conn-${i}`}
+                  className="hidden md:block flex-[0_0_60px] h-px mt-[18px] mx-[6px]"
+                  style={{
+                    background:
+                      "repeating-linear-gradient(90deg,#C9A26C 0 8px,transparent 8px 14px)",
+                  }}
+                  aria-hidden="true"
+                />
+              )} */}
+            </div>
           ))}
         </div>
       </div>

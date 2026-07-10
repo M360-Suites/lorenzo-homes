@@ -57,7 +57,7 @@ export default function Footer() {
           {["About", "Services", "Projects", "Contact"].map((l) => (
             <a
               key={l}
-              href={`/${l.toLowerCase()}`}
+              href={`#${l.toLowerCase()}`}
               className="hover:text-brass-light transition-colors"
             >
               {l}
@@ -76,9 +76,9 @@ export default function Footer() {
       {/* Bold faded wordmark */}
       <div className="overflow-hidden flex flex-col w-full max-w-7xl mx-auto gap-2 justify-center pt-5">
         <div className="flex flex-col items-center gap-0.5">
-          <p className="text-[0.88rem] max-md:text-[0.7rem] w-[280px] w-full text-center text-white/55 m-0">
+          {/* <p className="text-[0.88rem] max-md:text-[0.7rem] w-[280px] w-full text-center text-white/55 m-0">
             Building value across Nigerian real estate for over 25 years.
-          </p>
+          </p> */}
           <span className="text-[0.88rem] max-md:text-[0.7rem] w-[280px] w-full text-center text-white/55 m-0">
             © {year} Lorenzo Homes. All rights reserved.
           </span>

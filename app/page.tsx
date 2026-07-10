@@ -1,6 +1,6 @@
 import Hero from "../sections/Hero";
 import Stats from "../sections/Stats";
-// import About from "../sections/About";
+import About from "../sections/About";
 import Services from "../sections/Services";
 import Projects from "../sections/Projects";
 import CtaBand from "../sections/CtaBand";
@@ -13,11 +13,11 @@ export default function Home() {
       <main>
         <Hero />
         <Stats />
-        {/* <About /> */}
+        <About />
         <Services />
         <Projects />
         <CtaBand />
-        {/* <Contact /> */}
+        <Contact />
       </main>
     </>
   );

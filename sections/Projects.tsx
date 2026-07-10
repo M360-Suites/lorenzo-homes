@@ -24,20 +24,20 @@ const COMPLETED = {
   industrial: [
     { name: "22 Bays of Warehouses", loc: "Abule Osun, Mazamaza, Lagos" },
     { name: "2 Bays of Warehouse", loc: "Abule Osun, Mazamaza, Lagos" },
-    {
-      name: "Rice Milling Factory & Warehouse",
-      loc: "Elele Alimini, Port Harcourt, Rivers State",
-    },
-    { name: "Rice Mill Factory & Warehouse", loc: "Bida, Niger State" },
-    { name: "Cassava Factory & Warehouse", loc: "Lanlate, Oyo State" },
+    // {
+    //   name: "Rice Milling Factory & Warehouse",
+    //   loc: "Elele Alimini, Port Harcourt, Rivers State",
+    // },
+    // { name: "Rice Mill Factory & Warehouse", loc: "Bida, Niger State" },
+    // { name: "Cassava Factory & Warehouse", loc: "Lanlate, Oyo State" },
   ],
   residential: [
-    {
-      name: "2 Wings, 5-Bedroom Duplex",
-      loc: "Ade Ajayi Street, Ogudu GRA, Lagos",
-    },
+    // {
+    //   name: "2 Wings, 5-Bedroom Duplex",
+    //   loc: "Ade Ajayi Street, Ogudu GRA, Lagos",
+    // },
     { name: "6-Bedroom Detached House", loc: "Osborne Phase 2, Ikoyi, Lagos" },
-    { name: "Block of 3no 3-Bedroom Apartments", loc: "Osborne, Ikoyi, Lagos" },
+    { name: "Block of 6no 3-Bedroom Apartments", loc: "Osborne, Ikoyi, Lagos" },
     { name: "Block of 5-Bedroom Mansion", loc: "Banana Island, Ikoyi, Lagos" },
   ],
 };
@@ -49,8 +49,13 @@ const IMAGES = [
 ];
 
 export default function Projects() {
+  const [currentImage, setCurrentImage] = useState(THUMBS[0].src);
   const [tab, setTab] = useState<"completed" | "ongoing">("completed");
   const [thumb, setThumb] = useState(0);
+
+  const handleImageClick = (index: number) => {
+    setCurrentImage(THUMBS[index].src);
+  };
 
   return (
     <section id="projects" className="py-[110px] bg-ink text-white">
@@ -200,7 +205,7 @@ export default function Projects() {
                   </div>
                 ))}
               </div>
-              <div className="border-t border-white/14 pt-6">
+              {/* <div className="border-t border-white/14 pt-6">
                 <p className="text-[0.8rem] font-bold tracking-[0.08em] uppercase text-white/55 mb-3">
                   Site walkthrough
                 </p>
@@ -217,7 +222,7 @@ export default function Projects() {
                   </div>
                   <span>Video available on request</span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         )}

@@ -78,7 +78,7 @@ const SERVICES = [
       </svg>
     ),
     title: "Facility Management",
-    body: "Ongoing maintenance and operational management that protects asset value long after completion.",
+    body: "Ongoing maintenance and operational management that protects asset value long after completion and gives satisfaction to our residents and stakeholders",
   },
   {
     icon: (
