@@ -1,5 +1,8 @@
 "use client";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
+import Logo from "../public/logo_1.jpg";
+
 export default function Footer() {
   const year = new Date().getFullYear();
 
@@ -82,6 +85,16 @@ export default function Footer() {
           <span className="text-[0.88rem] max-md:text-[0.7rem] w-[280px] w-full text-center text-white/55 m-0">
             © {year} Lorenzo Homes. All rights reserved.
           </span>
+        </div>
+
+        <div className="w-full flex justify-center">
+          <Image
+            src={Logo}
+            alt="Lorenzo Homes"
+            width={100}
+            height={100}
+            className="h-20 w-auto"
+          />
         </div>
 
         {/* <span

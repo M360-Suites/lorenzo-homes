@@ -95,7 +95,7 @@ export default function ContactModal() {
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      className="fixed inset-0 z-200 flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
       aria-label="Book a free investment consultation"

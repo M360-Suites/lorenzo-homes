@@ -1,6 +1,7 @@
 import ConsultationButton from "@/components/ConsultationButton";
 import Image from "next/image";
-import MallRender from "@/public/assets/house01.jpg";
+import MallRender from "@/public/img_sales02.jpg";
+import MallRender1 from "@/public/img_sales01.jpg";
 
 export default function AkronHero() {
   return (
@@ -196,10 +197,10 @@ export default function AkronHero() {
           </div>
 
           {/* Right: 3D render placeholder */}
-          <div className="relative max-lg:hidden">
+          <div className="relative ">
             <div className="aspect-[4/3] rounded-xl overflow-hidden relative">
               <Image
-                src={MallRender}
+                src={MallRender1}
                 alt="Orchid Road commercial mall 3D render"
                 fill
                 priority

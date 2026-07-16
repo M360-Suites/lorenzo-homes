@@ -94,23 +94,6 @@ export default function AkronOrchidRoad() {
           </div>
         </div>
 
-        {/* Drone image note */}
-        <div className="bg-paper border border-stone-line rounded-lg px-6 py-4 mb-10 flex items-start gap-3">
-          {/* Placeholder for drone imagery */}
-          {/*
-            Replace with actual drone images of Orchid Road:
-            <Image src="/assets/orchid-drone.jpg" alt="Orchid Road aerial view" ... />
-          */}
-          <span className="text-brass text-[1.3rem]">📍</span>
-          <p className="text-[0.9rem] text-ink-soft m-0">
-            <span className="font-bold text-ink">
-              Drone imagery of Orchid Road
-            </span>{" "}
-            — high-res aerial photos available on request. Site inspections can
-            be arranged at short notice.
-          </p>
-        </div>
-
         <ConsultationButton>
           Book a Free Investment Consultation
         </ConsultationButton>
