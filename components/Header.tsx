@@ -1,7 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Logo from "../public/logo_1.jpg";
 
 const NAV = [
   { href: "/services", label: "Services" },
@@ -71,46 +73,15 @@ export default function Header() {
             : "bg-transparent"
         }`}
       >
-        <div className="wrap flex items-center justify-between py-5.5">
+        <div className="wrap flex items-center justify-between py-1.5">
           {/* Logo */}
-          <Link
-            href="/"
-            className={`flex items-center gap-2.5 transition-colors duration-300 ${
-              solidBg ? "text-ink" : "text-white"
-            }`}
-          >
-            <svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true">
-              <rect
-                x="2"
-                y="2"
-                width="44"
-                height="44"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <path
-                d="M10 34V20l14-9 14 9v14"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              />
-              <line
-                x1="24"
-                y1="11"
-                x2="24"
-                y2="34"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                opacity=".5"
-              />
-            </svg>
-            <span className="font-display text-[1.18rem] font-semibold">
-              Lorenzo
-              <em className="not-italic text-brass font-medium">Homes</em>
-            </span>
-          </Link>
-
+          <Image
+            src={Logo}
+            alt="Lorenzo Homes"
+            width={100}
+            height={100}
+            className="h-20 w-auto"
+          />
           {/* Desktop nav */}
           <nav className="hidden md:flex gap-[34px]">
             {NAV.map((n) => (
