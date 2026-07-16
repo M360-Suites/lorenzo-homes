@@ -198,23 +198,35 @@ export default function AkronHero() {
 
           {/* Right: 3D render placeholder */}
           <div className="relative ">
-            <div className="aspect-[4/3] rounded-xl overflow-hidden relative">
-              <Image
-                src={MallRender1}
-                alt="Orchid Road commercial mall 3D render"
-                fill
-                priority
-                className="object-cover object-center"
-              />
+            <div className="flex flex-col gap-3">
+              <div className="aspect-[4/3] rounded-xl overflow-hidden relative">
+                <Image
+                  src={MallRender1}
+                  alt="Orchid Road commercial mall 3D render"
+                  fill
+                  priority
+                  className="object-cover object-center"
+                />
 
-              {/* 80% badge overlay */}
-              <div className="absolute top-5 right-5 bg-brass text-white rounded-lg px-4 py-3 text-center shadow-lg">
-                <p className="font-display text-[1.9rem] font-semibold m-0 leading-none">
-                  80%
-                </p>
-                <p className="text-[0.65rem] uppercase tracking-widest m-0 mt-1 text-white/80">
-                  ROI Potential
-                </p>
+                {/* 80% badge overlay */}
+                <div className="absolute top-5 right-5 bg-brass text-white rounded-lg px-4 py-3 text-center shadow-lg">
+                  <p className="font-display text-[1.9rem] font-semibold m-0 leading-none">
+                    80%
+                  </p>
+                  <p className="text-[0.65rem] uppercase tracking-widest m-0 mt-1 text-white/80">
+                    ROI Potential
+                  </p>
+                </div>
+              </div>
+
+              <div className="aspect-[4/3] rounded-xl overflow-hidden relative">
+                <Image
+                  src={MallRender}
+                  alt="Orchid Road commercial mall 3D render"
+                  fill
+                  priority
+                  className="object-cover object-center"
+                />
               </div>
             </div>
 
