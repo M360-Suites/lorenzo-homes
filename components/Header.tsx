@@ -75,13 +75,15 @@ export default function Header() {
       >
         <div className="wrap flex items-center justify-between py-1.5">
           {/* Logo */}
-          <Image
-            src={Logo}
-            alt="Lorenzo Homes"
-            width={100}
-            height={100}
-            className="h-20 w-auto"
-          />
+          <Link href="/">
+            <Image
+              src={Logo}
+              alt="Lorenzo Homes"
+              width={100}
+              height={100}
+              className="h-20 max-md:h-16 w-auto"
+            />
+          </Link>
           {/* Desktop nav */}
           <nav className="hidden md:flex gap-[34px]">
             {NAV.map((n) => (
