@@ -155,7 +155,7 @@ export default function ContactModal() {
 								type="text"
 								value={fields.name}
 								onChange={set("name")}
-								placeholder="Your name"
+								placeholder="Your full name"
 								required
 								className={inputCls}
 							/>
