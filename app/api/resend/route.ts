@@ -22,14 +22,14 @@ export async function POST(req: NextRequest) {
     source?: string;
   };
 
-  if (!name?.trim() || !email?.trim()) {
+  if (!name?.trim() || (!email?.trim() && !phone?.trim())) {
     return NextResponse.json(
-      { error: "Name and email are required." },
+      { error: "Name and an email or phone number are required." },
       { status: 400 },
     );
   }
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (email?.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json(
       { error: "Please provide a valid email address." },
       { status: 400 },
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
   const pageLabel =
     source === "sales"
-      ? "Sales Page — Investment Consultation"
+      ? "Sales Page — Investment Consultation (Ads)"
       : "Contact Page";
 
   const html = `
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
 
                 <tr style="border-bottom:1px solid #f3eee3;">
                   <td width="130" style="padding:12px 12px 12px 0;font-size:13px;font-weight:700;color:#a9824f;vertical-align:top;">Email</td>
-                  <td style="padding:12px 0;font-size:13px;color:#1c1814;vertical-align:top;"><a href="mailto:${esc(email)}" style="color:#b8842f;text-decoration:none;">${esc(email)}</a></td>
+                  <td style="padding:12px 0;font-size:13px;color:#1c1814;vertical-align:top;">${email ? `<a href="mailto:${esc(email)}" style="color:#b8842f;text-decoration:none;">${esc(email)}</a>` : "&mdash;"}</td>
                 </tr>
 
                 <tr style="border-bottom:1px solid #f3eee3;">
@@ -123,7 +123,7 @@ export async function POST(req: NextRequest) {
     const data = await resend.emails.send({
       from: "Lorenzo Homes <hello@update.lorenzohomesonline.com>",
       to: "m360solutionsgroup@gmail.com",
-      replyTo: email,
+      replyTo: email || undefined,
       subject: `New Enquiry from ${name} — ${interest || "Website Contact"}`,
       html,
     });
