@@ -1,8 +1,8 @@
-import Script from "next/script";
 import type { Metadata } from "next";
 import { Fraunces, Manrope } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CrmScript from "@/components/CrmScript";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -37,14 +37,7 @@ export default function RootLayout({
 				<Header />
 				{children}
 				<Footer />
-				<Script
-					src="https://app.crm360online.com/capture.js"
-					data-key="pk_live_221b0e243a551102efee037cf234a0b238472edd60fcb86f"
-					data-selector="#contact-form"
-					data-tags=""
-					data-debug="false"
-					strategy="afterInteractive"
-				/>
+				<CrmScript />
 			</body>
 		</html>
 	);

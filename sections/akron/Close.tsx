@@ -1,88 +1,194 @@
-import ConsultationButton from "@/components/ConsultationButton";
+"use client";
+import { useState } from "react";
+import Media from "./Media";
+import {
+  BALANCE_MONTHS,
+  COMPLETION,
+  FRONT_PRICE_PER_SQM,
+  IMG,
+  MAX_SQM,
+  MIN_PRICE,
+  MIN_SQM,
+  PRICE_PER_SQM,
+  SHOPS_LEFT,
+  VIDEO,
+  naira,
+} from "./data";
 
-const COUNTDOWN = [
-  "Construction moves forward.",
-  "Prices move upward.",
-  "Available units become fewer.",
-  "Businesses continue searching for premium commercial spaces.",
+const inputCls =
+  "font-body text-[0.95rem] py-3 px-[14px] border border-stone-line rounded-lg bg-paper text-ink font-medium outline-none transition-all focus:border-brass focus:ring-2 focus:ring-brass/20 w-full";
+const labelCls = "flex flex-col gap-[6px] text-[0.82rem] font-bold text-ink-soft";
+
+const FACTS = [
+  `${COMPLETION}% completed`,
+  `${SHOPS_LEFT} shops remaining`,
+  `${MIN_SQM}sqm – ${MAX_SQM}sqm`,
+  `${naira(PRICE_PER_SQM)}/sqm · ${naira(FRONT_PRICE_PER_SQM)}/sqm front shops`,
+  "70% initial payment",
+  `30% balance within ${BALANCE_MONTHS} months`,
 ];
 
+const EMPTY = { name: "", phone: "", email: "" };
+
 export default function AkronClose() {
+  const [fields, setFields] = useState(EMPTY);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const set = (k: keyof typeof EMPTY) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setFields((v) => ({ ...v, [k]: e.target.value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!fields.name.trim() || !fields.phone.trim()) {
+      setErrorMsg("Please fill in your name and phone number.");
+      setStatus("error");
+      return;
+    }
+    setStatus("loading");
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/resend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...fields,
+          interest: "Akron UBA Mall — fractional / shop purchase",
+          source: "sales",
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send.");
+      setStatus("success");
+      setFields(EMPTY);
+    } catch (err: unknown) {
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setStatus("error");
+    }
+  };
+
   return (
-    <section className="bg-ink text-white py-28 max-md:py-20" id="close">
-      <div className="wrap max-w-7xl">
-        <div className="max-w-[820px] mx-auto">
-          {/* Urgency header */}
-          <p className="eyebrow eyebrow-light justify-center mb-6">
-            <span
-              className="eyebrow-line"
-              style={{ background: "var(--color-brass-light)" }}
-            />
-            Don&apos;t Wait
-            <span
-              className="eyebrow-line"
-              style={{ background: "var(--color-brass-light)" }}
-            />
-          </p>
+    <section className="relative overflow-hidden bg-ink text-white py-28 max-md:py-20" id="close">
+      <div className="absolute inset-0 z-0">
+        <Media
+          image={IMG.renderFront}
+          video={VIDEO.final}
+          alt="Akron UBA Mall"
+          className="object-cover object-center"
+          drift
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(110deg,rgba(20,17,13,0.97) 0%,rgba(20,17,13,0.9) 50%,rgba(20,17,13,0.7) 100%)",
+          }}
+        />
+      </div>
 
-          <h2 className="text-[clamp(1.8rem,4.2vw,3.4rem)] text-white text-center mb-10">
-            Every Month You Wait...
-          </h2>
+      <div className="wrap max-w-7xl relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center">
+          <div>
+            <h2 className="text-[clamp(1.9rem,4.4vw,3.5rem)] text-white mb-4">
+              {naira(MIN_PRICE)}{" "}Doesn&apos;t Have to Mean &ldquo;I Can&apos;t
+              Afford It.&rdquo;
+            </h2>
+            <p className="font-display ital text-[clamp(1.4rem,3vw,2.3rem)] text-brass-light mb-10">
+              It could mean &ldquo;Who can I own it with?&rdquo;
+            </p>
 
-          <ul className="space-y-4 mb-14">
-            {COUNTDOWN.map((c) => (
-              <li
-                key={c}
-                className="flex items-start gap-4 bg-white/5 border border-white/8 rounded-lg px-6 py-4"
-              >
-                <svg
-                  viewBox="0 0 16 16"
-                  className="w-4 h-4 text-brass-light shrink-0 mt-[3px]"
-                  aria-hidden="true"
+            <p className="eyebrow eyebrow-light mb-5">
+              <span className="eyebrow-line" style={{ background: "var(--color-brass-light)" }} />
+              📍 Akron UBA Mall · Orchid Road, Lekki
+            </p>
+            <ul className="grid sm:grid-cols-2 gap-3">
+              {FACTS.map((f) => (
+                <li
+                  key={f}
+                  className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-[0.92rem] text-white/85"
                 >
-                  <path
-                    d="M8 1l.9 1.9L11 3.3l-1.5 1.5.4 2.2L8 6l-1.9 1 .4-2.2L5 3.3l2.1-.4z"
-                    fill="currentColor"
-                  />
-                </svg>
-                <span className="text-[1rem] text-white/80">{c}</span>
-              </li>
-            ))}
-          </ul>
+                  <span className="w-1.5 h-1.5 rounded-full bg-brass-light shrink-0" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          {/* The question */}
-          <div className="text-center border-t border-white/10 pt-14">
-            <p className="text-white/60 text-[1rem] mb-3">
-              The only question is...
-            </p>
-            <p className="font-display text-[clamp(1.4rem,3.2vw,2.4rem)] text-white/90 ital mb-14">
-              Will one of those spaces belong to you?
-            </p>
-
-            {/* Final CTA block */}
-            <div className="bg-white/5 border border-white/12 rounded-2xl p-10 max-md:p-7">
-              <p className="eyebrow eyebrow-light justify-center mb-5">
-                <span
-                  className="eyebrow-line"
-                  style={{ background: "var(--color-brass-light)" }}
-                />
-                Lorenzo Homes · Orchid Road, Lekki
+          {/* Lead form */}
+          <div className="bg-paper text-ink rounded-2xl shadow-2xl overflow-hidden">
+            <div className="px-8 pt-8 pb-6 max-md:px-6 border-b border-stone-line">
+              <p className="eyebrow mb-2">
+                <span className="eyebrow-line" />
+                Lorenzo Homes
               </p>
-              <h2 className="text-[clamp(1.6rem,3.5vw,2.8rem)] text-white mb-5 max-w-[580px] mx-auto">
-                Own a Commercial Unit on Orchid Road, Lekki Today
-              </h2>
-              <p className="text-white/65 text-[0.97rem] max-w-[520px] mx-auto mb-10 leading-relaxed">
-                Position yourself for rental income, capital appreciation, and a
-                projected 80% return on investment in one of Lekki&apos;s most
-                promising commercial locations.
-              </p>
-              <div className="flex gap-4 flex-wrap justify-center">
-                <ConsultationButton>Reserve Your Unit Today</ConsultationButton>
-                <ConsultationButton variant="outline">
-                  Book a Free Investment Consultation
-                </ConsultationButton>
-              </div>
+              <h3 className="text-[1.6rem] text-ink m-0">Own a Piece of Akron UBA Mall</h3>
             </div>
+            <form
+              id="akron-lead-form"
+              onSubmit={handleSubmit}
+              className="px-8 py-7 max-md:px-6 grid gap-5"
+              noValidate
+            >
+              <label className={labelCls}>
+                Full Name*
+                <input
+                  type="text"
+                  name="name"
+                  value={fields.name}
+                  onChange={set("name")}
+                  placeholder="Your full name"
+                  autoComplete="name"
+                  required
+                  className={inputCls}
+                />
+              </label>
+              <label className={labelCls}>
+                Phone Number*
+                <input
+                  type="tel"
+                  name="phone"
+                  value={fields.phone}
+                  onChange={set("phone")}
+                  placeholder="+234"
+                  autoComplete="tel"
+                  required
+                  className={inputCls}
+                />
+              </label>
+              <label className={labelCls}>
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  value={fields.email}
+                  onChange={set("email")}
+                  placeholder="you@email.com"
+                  autoComplete="email"
+                  className={inputCls}
+                />
+              </label>
+
+              <button
+                type="submit"
+                disabled={status === "loading"}
+                className="btn btn-solid btn-full rounded-lg"
+              >
+                {status === "loading" ? "Sending…" : "I Want to Invest"}
+              </button>
+
+              {status === "success" && (
+                <p className="text-[0.85rem] font-bold text-green-700 m-0">
+                  ✓ Thank you. An advisor will call you within one business day.
+                </p>
+              )}
+              {status === "error" && errorMsg && (
+                <p className="text-[0.85rem] font-bold text-red-700 m-0">{errorMsg}</p>
+              )}
+              <p className="text-[0.78rem] text-ink-soft m-0">
+                No obligation. We&apos;ll share current availability, floor plans
+                and how a fractional arrangement could work for your group.
+              </p>
+            </form>
           </div>
         </div>
       </div>
