@@ -3,6 +3,7 @@ import { Fraunces, Manrope } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CrmScript from "@/components/CrmScript";
+import MetaPixel from "@/components/MetaPixel";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -38,6 +39,7 @@ export default function RootLayout({
 				{children}
 				<Footer />
 				<CrmScript />
+				<MetaPixel />
 			</body>
 		</html>
 	);
