@@ -153,6 +153,7 @@ export default function ContactModal() {
 							<input
 								ref={firstInputRef}
 								type="text"
+								name="name"
 								value={fields.name}
 								onChange={set("name")}
 								placeholder="Your full name"
@@ -164,6 +165,7 @@ export default function ContactModal() {
 							Email
 							<input
 								type="email"
+								name="email"
 								value={fields.email}
 								onChange={set("email")}
 								placeholder="you@email.com"
@@ -178,6 +180,7 @@ export default function ContactModal() {
 							Phone / WhatsApp
 							<input
 								type="tel"
+								name="phone"
 								value={fields.phone}
 								onChange={set("phone")}
 								placeholder="+234"
@@ -187,6 +190,7 @@ export default function ContactModal() {
 						<label className={labelCls}>
 							I&apos;m interested in
 							<select
+								name="interest"
 								value={fields.interest}
 								onChange={set("interest")}
 								className={inputCls}
@@ -205,6 +209,7 @@ export default function ContactModal() {
 							(optional)
 						</span>
 						<textarea
+							name="message"
 							value={fields.message}
 							onChange={set("message")}
 							rows={3}
