@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Media from "./Media";
+import { submitLead } from "@/lib/submitLead";
 import {
   BALANCE_MONTHS,
   COMPLETION,
@@ -9,7 +10,9 @@ import {
   MAX_SQM,
   MIN_PRICE,
   MIN_SQM,
+  PAYMENT_FORMATS,
   PRICE_PER_SQM,
+  PURCHASE_TIMELINES,
   SHOPS_LEFT,
   VIDEO,
   naira,
@@ -28,14 +31,15 @@ const FACTS = [
   `30% balance within ${BALANCE_MONTHS} months`,
 ];
 
-const EMPTY = { name: "", phone: "", email: "" };
+const EMPTY = { name: "", phone: "", email: "", paymentFormat: "", budget: "", timeline: "" };
 
 export default function AkronClose() {
   const [fields, setFields] = useState(EMPTY);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const set = (k: keyof typeof EMPTY) => (e: React.ChangeEvent<HTMLInputElement>) =>
+  const set =
+    (k: keyof typeof EMPTY) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setFields((v) => ({ ...v, [k]: e.target.value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -48,17 +52,11 @@ export default function AkronClose() {
     setStatus("loading");
     setErrorMsg("");
     try {
-      const res = await fetch("/api/resend", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...fields,
-          interest: "Akron UBA Mall — fractional / shop purchase",
-          source: "sales",
-        }),
+      await submitLead({
+        ...fields,
+        interest: "Akron UBA Mall — fractional / shop purchase",
+        source: "sales",
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to send.");
       setStatus("success");
       setFields(EMPTY);
     } catch (err: unknown) {
@@ -167,6 +165,46 @@ export default function AkronClose() {
                   className={inputCls}
                 />
               </label>
+              <label className={labelCls}>
+                Payment Format
+                <select
+                  name="paymentFormat"
+                  value={fields.paymentFormat}
+                  onChange={set("paymentFormat")}
+                  className={inputCls}
+                >
+                  <option value="">Select payment format</option>
+                  {PAYMENT_FORMATS.map((o) => (
+                    <option key={o}>{o}</option>
+                  ))}
+                </select>
+              </label>
+              <label className={labelCls}>
+                Actual Budget
+                <input
+                  type="text"
+                  name="budget"
+                  value={fields.budget}
+                  onChange={set("budget")}
+                  placeholder="e.g. ₦30,000,000"
+                  inputMode="numeric"
+                  className={inputCls}
+                />
+              </label>
+              <label className={labelCls}>
+                How soon are you looking at purchasing?
+                <select
+                  name="timeline"
+                  value={fields.timeline}
+                  onChange={set("timeline")}
+                  className={inputCls}
+                >
+                  <option value="">Select timeframe</option>
+                  {PURCHASE_TIMELINES.map((o) => (
+                    <option key={o}>{o}</option>
+                  ))}
+                </select>
+              </label>
 
               <button
                 type="submit"
@@ -178,7 +216,8 @@ export default function AkronClose() {
 
               {status === "success" && (
                 <p className="text-[0.85rem] font-bold text-green-700 m-0">
-                  ✓ Thank you. An advisor will call you within one business day.
+                  ✓ Thank you! You&apos;ll get a call or email from us shortly to confirm
+                  availability.
                 </p>
               )}
               {status === "error" && errorMsg && (

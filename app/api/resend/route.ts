@@ -13,11 +13,14 @@ function esc(str: string) {
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { name, email, phone, interest, message, source } = body as {
+  const { name, email, phone, interest, paymentFormat, budget, timeline, message, source } = body as {
     name: string;
     email: string;
     phone?: string;
     interest?: string;
+    paymentFormat?: string;
+    budget?: string;
+    timeline?: string;
     message?: string;
     source?: string;
   };
@@ -82,9 +85,24 @@ export async function POST(req: NextRequest) {
                   <td style="padding:12px 0;font-size:13px;color:#1c1814;vertical-align:top;">${esc(phone || "&mdash;")}</td>
                 </tr>
 
-                <tr${message?.trim() ? ' style="border-bottom:1px solid #f3eee3;"' : ""}>
+                <tr style="border-bottom:1px solid #f3eee3;">
                   <td width="130" style="padding:12px 12px 12px 0;font-size:13px;font-weight:700;color:#a9824f;vertical-align:top;">Interested in</td>
                   <td style="padding:12px 0;font-size:13px;color:#1c1814;vertical-align:top;">${esc(interest || "&mdash;")}</td>
+                </tr>
+
+                <tr style="border-bottom:1px solid #f3eee3;">
+                  <td width="130" style="padding:12px 12px 12px 0;font-size:13px;font-weight:700;color:#a9824f;vertical-align:top;">Payment format</td>
+                  <td style="padding:12px 0;font-size:13px;color:#1c1814;vertical-align:top;">${paymentFormat?.trim() ? esc(paymentFormat) : "&mdash;"}</td>
+                </tr>
+
+                <tr style="border-bottom:1px solid #f3eee3;">
+                  <td width="130" style="padding:12px 12px 12px 0;font-size:13px;font-weight:700;color:#a9824f;vertical-align:top;">Budget</td>
+                  <td style="padding:12px 0;font-size:13px;color:#1c1814;vertical-align:top;">${budget?.trim() ? esc(budget) : "&mdash;"}</td>
+                </tr>
+
+                <tr${message?.trim() ? ' style="border-bottom:1px solid #f3eee3;"' : ""}>
+                  <td width="130" style="padding:12px 12px 12px 0;font-size:13px;font-weight:700;color:#a9824f;vertical-align:top;">Purchase timeline</td>
+                  <td style="padding:12px 0;font-size:13px;color:#1c1814;vertical-align:top;">${timeline?.trim() ? esc(timeline) : "&mdash;"}</td>
                 </tr>
 
                 ${

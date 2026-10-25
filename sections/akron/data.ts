@@ -28,6 +28,16 @@ export const FLOORS = [
 ];
 export const SHOPS_LEFT = FLOORS.reduce((s, f) => s + f.available, 0); // 27
 
+// ── Lead form qualifiers ──
+export const PAYMENT_FORMATS = ["Installment", "Full payment"];
+export const PURCHASE_TIMELINES = [
+  "0 to 7 days",
+  "7 to 30 days",
+  "30 to 60 days",
+  "60 to 90 days",
+  "90 days and above",
+];
+
 /** Format a value in ₦ millions: 57.2 → "₦57.2M", 19.0667 → "₦19.07M" */
 export function naira(m: number) {
   return `₦${Number(m.toFixed(2)).toLocaleString("en-NG")}M`;

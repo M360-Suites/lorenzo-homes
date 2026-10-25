@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useContactModal } from "./ContactModalContext";
+import { submitLead } from "@/lib/submitLead";
+import { PAYMENT_FORMATS, PURCHASE_TIMELINES } from "@/sections/akron/data";
 
 const inputCls =
 	"font-body text-[0.95rem] py-3 px-[14px] border border-stone-line rounded-lg bg-paper text-ink font-medium outline-none transition-all focus:border-brass focus:ring-2 focus:ring-brass/20 w-full";
@@ -15,6 +17,9 @@ export default function ContactModal() {
 		email: "",
 		phone: "",
 		interest: "Investing with Lorenzo Homes",
+		paymentFormat: "",
+		budget: "",
+		timeline: "",
 		message: "",
 	});
 	const [status, setStatus] = useState<
@@ -41,19 +46,16 @@ export default function ContactModal() {
 		setStatus("loading");
 		setErrorMsg("");
 		try {
-			const res = await fetch("/api/resend", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ ...fields, source: "sales" }),
-			});
-			const data = await res.json();
-			if (!res.ok) throw new Error(data.error || "Failed to send.");
+			await submitLead({ ...fields, source: "sales" });
 			setStatus("success");
 			setFields({
 				name: "",
 				email: "",
 				phone: "",
 				interest: "Investing with Lorenzo Homes",
+				paymentFormat: "",
+				budget: "",
+				timeline: "",
 				message: "",
 			});
 			setTimeout(() => setStatus("idle"), 6000);
@@ -203,6 +205,50 @@ export default function ContactModal() {
 						</label>
 					</div>
 
+					<div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+						<label className={labelCls}>
+							Payment Format
+							<select
+								name="paymentFormat"
+								value={fields.paymentFormat}
+								onChange={set("paymentFormat")}
+								className={inputCls}
+							>
+								<option value="">Select payment format</option>
+								{PAYMENT_FORMATS.map((o) => (
+									<option key={o}>{o}</option>
+								))}
+							</select>
+						</label>
+						<label className={labelCls}>
+							Actual Budget
+							<input
+								type="text"
+								name="budget"
+								value={fields.budget}
+								onChange={set("budget")}
+								placeholder="e.g. ₦30,000,000"
+								inputMode="numeric"
+								className={inputCls}
+							/>
+						</label>
+					</div>
+
+					<label className={`${labelCls} mb-5`}>
+						How soon are you looking at purchasing?
+						<select
+							name="timeline"
+							value={fields.timeline}
+							onChange={set("timeline")}
+							className={inputCls}
+						>
+							<option value="">Select timeframe</option>
+							{PURCHASE_TIMELINES.map((o) => (
+								<option key={o}>{o}</option>
+							))}
+						</select>
+					</label>
+
 					<label className={`${labelCls} mb-6`}>
 						Message{" "}
 						<span className="font-normal normal-case">
@@ -228,8 +274,8 @@ export default function ContactModal() {
 
 					{status === "success" && (
 						<p className="text-[0.85rem] font-bold mt-4 text-green-700">
-							✓ Enquiry sent. We&apos;ll be in touch within one
-							business day.
+							✓ Thank you! You&apos;ll get a call or email from
+							us shortly to confirm availability.
 						</p>
 					)}
 					{status === "error" && errorMsg && (
