@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { useContactModal } from "./ContactModalContext";
 import { submitLead } from "@/lib/submitLead";
 import { PAYMENT_FORMATS, PURCHASE_TIMELINES } from "@/sections/akron/data";
@@ -11,6 +12,7 @@ const labelCls =
 
 export default function ContactModal() {
 	const { open, closeModal } = useContactModal();
+	const router = useRouter();
 
 	const [fields, setFields] = useState({
 		name: "",
@@ -47,18 +49,8 @@ export default function ContactModal() {
 		setErrorMsg("");
 		try {
 			await submitLead({ ...fields, source: "sales" });
-			setStatus("success");
-			setFields({
-				name: "",
-				email: "",
-				phone: "",
-				interest: "Investing with Lorenzo Homes",
-				paymentFormat: "",
-				budget: "",
-				timeline: "",
-				message: "",
-			});
-			setTimeout(() => setStatus("idle"), 6000);
+			closeModal();
+			router.push("/sales/thank-you");
 		} catch (err: unknown) {
 			const msg =
 				err instanceof Error

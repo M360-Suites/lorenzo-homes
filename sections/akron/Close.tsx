@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Media from "./Media";
 import { submitLead } from "@/lib/submitLead";
 import {
@@ -34,6 +35,7 @@ const FACTS = [
 const EMPTY = { name: "", phone: "", email: "", paymentFormat: "", budget: "", timeline: "" };
 
 export default function AkronClose() {
+  const router = useRouter();
   const [fields, setFields] = useState(EMPTY);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -57,8 +59,7 @@ export default function AkronClose() {
         interest: "Akron UBA Mall — fractional / shop purchase",
         source: "sales",
       });
-      setStatus("success");
-      setFields(EMPTY);
+      router.push("/sales/thank-you");
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please try again.");
       setStatus("error");

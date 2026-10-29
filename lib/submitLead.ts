@@ -31,6 +31,14 @@ async function sendToCrm(lead: Lead) {
   if (!res.ok) throw new Error("Failed to send.");
 }
 
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void;
+  }
+}
+
 export async function submitLead(lead: Lead) {
   await Promise.all([sendEmail(lead), sendToCrm(lead)]);
+  // Only reached when both requests succeeded, so Meta counts real leads only.
+  window.fbq?.("track", "Lead", { content_name: lead.interest || "Lead" });
 }
